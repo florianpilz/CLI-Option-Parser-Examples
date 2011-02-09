@@ -1,42 +1,53 @@
 require 'rubygems'
 require 'main'
-# has a custom help format, which I find hard to read
-# ruby main.rb -h yields:
-# NAME
-#   main.rb
-# 
-# SYNOPSIS
-#   main.rb foo [bar=bar] [options]+
-# 
-# PARAMETERS
-#   foo (1 -> int(foo)) 
-#   bar=bar (2 ~> float(bar=0.0,1.0)) 
-#   --foobar=[foobar] (0 ~> foobar) 
-#       the foobar option is very handy 
-#   --help, -h 
-#   export barfoo=value
-Main {
-  argument('foo'){
-    cast :int
-  }
-  keyword('bar'){
-    arity 2
-    cast :float
-    defaults 0.0, 1.0
-  }
-  option('foobar'){
-    argument :optional
-    description 'the foobar option is very handy'
-  }
-  environment('BARFOO'){
-    cast :list_of_bool
-    synopsis 'export barfoo=value'
-  }
+require 'lib/timetabling'
 
+Main {
+  keyword('severity'){
+    cast :int
+    description 'Severity of the timetabling problem'
+    default 4
+    validate {|i| i >= 4 && i <= 8}
+  }
+  
+  keyword('mutation'){
+    description 'Mutation used in the evolutionary algorithm, see lib/mutations.rb'
+    default "DumbSwappingMutation"
+    validate {|mutation| Kernel.const_get(mutation)}
+  }
+  
+  keyword('recombination'){
+    description 'Recombination used in the evolutionary algorithm, see lib/recombinations.rb'
+    default "IdentityRecombination"
+    validate {|recombination| Kernel.const_get(recombination)}
+  }
+    
+  keyword('iterations'){
+    cast :int
+    description 'Algorihm will stop after given iterations or run indefinitely if 0'
+    default 5_000_000
+    validate {|i| i >= 0}
+  }
+  
+  keyword('time limit'){
+    cast :int
+    description 'Algorihm will stop after given time limit or run indefinitely if 0'
+    default 0.0
+    validate {|i| i >= 0.0}
+  }
+  
+  keyword('cycles'){
+    cast :int
+    description 'Number of times the algorithm will run'
+    default 1
+    validate {|i| i >= 1}
+  }
+  
   def run
-    p params['foo'].value
-    p params['bar'].values
-    p params['foobar'].value
-    p params['BARFOO'].value
+    constraints = Timetabling::read_timetable_data(params['severity'].value)
+    
+    params["cycles"].value.times do
+      Timetabling::run(:constraints => constraints, :mutation => Kernel.const_get(params["mutation"].value).new, :recombination => Kernel.const_get(params["recombination"].value).new, :number_of_slots => 30, :population_size => 1, :childs => 1, :recombination_chance => 0.0, :mutation_chance => 1.0, :iteration_limit => params["iterations"].value, :time_limit => params["time limit"].value)
+    end
   end
 }
