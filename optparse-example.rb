@@ -14,7 +14,7 @@ parser = OptionParser.new do |opts|
   opts.banner = "Usage: optparse-example.rb [options]"
   opts.separator ""
   opts.separator "Specific options:"
-  opts.on("-s", "--severity 4", Integer, "Severity of the timetabling problem") {|s| options[:severity] = s}
+  opts.on("-s", "--severity 4", %w(4 5 6 7 8), Integer, "Severity of the timetabling problem") {|s| options[:severity] = s}
   opts.on("-m", "--mutation DumbSwappingMutation", String, "Mutation used in the algorithm", "See lib/mutations.rb for possible mutations") {|m| options[:mutation] = m}
   opts.on("-r", "--recombination IdentityRecombination", String, "Recombination used in the algorithm", "See lib/recombinations.rb for possible recombinations") {|r| options[:recombination] = r}
   opts.on("-i", "--iterations 5_000_000", Integer, "Algorithm will stop after given amount of iterations or run indefinitely if 0") {|i| options[:iterations] = i}
