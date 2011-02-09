@@ -1,39 +1,16 @@
 require 'rubygems'
 require 'thor'
-# looks quite good, but seems to have loose support for short options like -f rather than --force
+require 'lib/timetabling'
 
-# output of ruby thor.rb or ruby thor.rb help
-# Tasks:
-#   thor.rb help [TASK]       # Describe available tasks or one specific task
-#   thor.rb install APP_NAME  # install one of the available apps
-#   thor.rb list [SEARCH]     # list all of the available apps, limited by SEARCH
+class App < Thor
+  desc "timetabling", "start timetabling algorithm"
+  method_options :severity => 4, :mutation => "DumbSwappingMutation", :recombination => "IdentityRecombination", :iterations => 5_000_000, :time_limit => 0.0, :cycles => 1
+  def timetabling()
+    constraints = Main::read_timetable_data(options[:severity])
 
-# output of ruby thor.rb help install
-# Usage:
-#   thor.rb install APP_NAME
-# 
-# Options:
-#   [--force]        
-#   [--alias=ALIAS]  
-# 
-# install one of the available apps
-
-class App < Thor                                                 # [1]
-  map "-L" => :list                                              # [2]
-
-  desc "install APP_NAME", "install one of the available apps"   # [3]
-  method_options :force => :boolean, :alias => :string           # [4]
-  def install(name)
-    user_alias = options[:alias]
-    if options.force?
-      puts "force"
+    options[:cycles].times do
+      Main::run(:constraints => constraints, :mutation => Kernel.const_get(options[:mutation]).new, :recombination => Kernel.const_get(options[:recombination]).new, :number_of_slots => 30, :population_size => 1, :childs => 1, :recombination_chance => 0.0, :mutation_chance => 1.0, :iteration_limit => options[:iterations], :time_limit => options[:time_limit])
     end
-    puts "installation of #{name}"
-  end
-
-  desc "list [SEARCH]", "list all of the available apps, limited by SEARCH"
-  def list(search="")
-    puts `ls *#{search}*`
   end
 end
 
