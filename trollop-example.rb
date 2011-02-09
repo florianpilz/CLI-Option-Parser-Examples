@@ -23,8 +23,8 @@ Trollop::die :severity, "must be in {4,5,6,7,8}" if opts[:severity] < 4 || opts[
 mutation = Kernel.const_get(opts[:mutation]) rescue Trollop::die(:mutation, "invalid mutation, see lib/mutations.rb")
 recombination = Kernel.const_get(opts[:recombination]) rescue Trollop::die(:recombination, "invalid recombination, see lib/recombinations.rb")
 
-constraints = Main::read_timetable_data(opts[:severity])
+constraints = Timetabling::read_timetable_data(opts[:severity])
 
 opts[:cycles].times do
-  Main::run(:constraints => constraints, :mutation => Kernel.const_get(opts[:mutation]).new, :recombination => Kernel.const_get(opts[:recombination]).new, :number_of_slots => 30, :population_size => 1, :childs => 1, :recombination_chance => 0.0, :mutation_chance => 1.0, :iteration_limit => opts[:iterations], :time_limit => opts[:time_limit])
+  Timetabling::run(:constraints => constraints, :mutation => Kernel.const_get(opts[:mutation]).new, :recombination => Kernel.const_get(opts[:recombination]).new, :number_of_slots => 30, :population_size => 1, :childs => 1, :recombination_chance => 0.0, :mutation_chance => 1.0, :iteration_limit => opts[:iterations], :time_limit => opts[:time_limit])
 end

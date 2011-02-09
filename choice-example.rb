@@ -80,8 +80,8 @@ Choice.options do
   end
 end
 
-constraints = Main::read_timetable_data(Choice.choices[:severity])
+constraints = Timetabling::read_timetable_data(Choice.choices[:severity])
 
 Choice.choices[:cycles].times do
-  Main::run(:constraints => constraints, :mutation => Choice.choices[:mutation].new, :recombination => Choice.choices[:recombination].new, :number_of_slots => 30, :population_size => 1, :childs => 1, :recombination_chance => 0.0, :mutation_chance => 1.0, :iteration_limit => Choice.choices[:iterations], :time_limit => Choice.choices[:time_limit])
+  Timetabling::run(:constraints => constraints, :mutation => Choice.choices[:mutation].new, :recombination => Choice.choices[:recombination].new, :number_of_slots => 30, :population_size => 1, :childs => 1, :recombination_chance => 0.0, :mutation_chance => 1.0, :iteration_limit => Choice.choices[:iterations], :time_limit => Choice.choices[:time_limit])
 end

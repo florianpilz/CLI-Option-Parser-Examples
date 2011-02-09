@@ -11,7 +11,7 @@ require 'lib/recombinations'
 # - Beweis, dass Austausch von Constraints zwischen clashing_periods und nonclashing_periods genügt
 # - zurücktauschen bei brute force wichtig?
 
-module Main
+module Timetabling
   @print_info = false
   
   def self.print_info=(bool)
@@ -50,13 +50,13 @@ module Main
       sorted_individuals = (new_individuals + individuals).sort_by(&:fitness).take(values[:population_size])
       if sorted_individuals.first.fitness < individuals.first.fitness || @print_info
         @print_info = false
-        Main::print_status(iterations, sorted_individuals, time)
+        Timetabling::print_status(iterations, sorted_individuals, time)
       end
       individuals = sorted_individuals
     end
     
     if individuals.first.fitness > 0
-      Main::print_status(iterations, individuals, time)
+      Timetabling::print_status(iterations, individuals, time)
       puts "=== unfinished"
     else
       puts "=== finished"
@@ -87,5 +87,5 @@ module Main
 end
 
 Signal.trap("TSTP") do |x| # Control-Z
-  Main::print_info = true
+  Timetabling::print_info = true
 end
