@@ -42,7 +42,7 @@ module OptionParser extend OptiFlagSet
   and_process!
 end
 
-options = OptionParser.flags # or AGRV.flags
+options = OptionParser.flags # or ARGV.flags
 
 constraints = Timetabling::read_timetable_data(options.severity)
 
