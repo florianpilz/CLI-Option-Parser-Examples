@@ -1,36 +1,64 @@
 require 'rubygems'
 require 'choice'
-# very readable
-# yields:
-# Usage: choice-example.rb [-hpv]
-# 
-# Specific options:
-#     -h, --host=HOST                  The hostname or ip of the host to bind to (default 127.0.0.1)
-#     -p, --port=PORT                  The port to listen on (default 21)
-# 
-# Common options: 
-#         --help                       Show this message
-#     -v, --version                    Show version
+require 'lib/timetabling'
 
-PROGRAM_VERSION = 4
+PROGRAM_VERSION = 2.1
 
 Choice.options do
   header ''
   header 'Specific options:'
 
-  option :host do
-    short '-h'
-    long '--host=HOST'
-    desc 'The hostname or ip of the host to bind to (default 127.0.0.1)'
-    default '127.0.0.1'
+  option :severity do
+    short '-s'
+    long '--severity=4'
+    desc 'Severity of the hard timetabling problem, must be an integer in {4, 5, 6, 7, 8}'
+    default '4'
+    cast Integer
+    valid %w(4 5 6 7 8)
   end
 
-  option :port do
-    short '-p'
-    long '--port=PORT'
-    desc 'The port to listen on (default 21)'
+  option :mutation do
+    short '-m'
+    long '--mutation=DumbSwappingMutation'
+    desc 'The mutation used in the evolutionary algorithm, see lib/mutations.rb for choices'
+    default Kernel.const_get('TripleSwapperWithTwoCollidingConstraintsMutation')
+    filter do |mutation|
+      Kernel.const_get(mutation)
+    end
+  end
+  
+  option :recombination do
+    short '-r'
+    long '--recombination=IdentityRecombination'
+    desc 'The recombination used in the evolutionary algorithm, see lib/recombinations.rb for choices'
+    default Kernel.const_get('IdentityRecombination')
+    filter do |recombination|
+      Kernel.const_get(recombination)
+    end
+  end
+  
+  option :iterations do
+    short '-i'
+    long '--iterations=5_000_000'
+    desc 'Algorithm will stop after the allowed iterations were exceded'
+    default 5_000_000
     cast Integer
-    default 21
+  end
+    
+  option :time_limit do
+    short '-t'
+    long '--time-limit=0'
+    desc 'Algorithm will stop after allowed time, will run indefinitely if time limit is 0'
+    default 0
+    cast Integer
+  end
+  
+  option :cycles do
+    short '-c'
+    long '--cycles=100'
+    desc 'Determines how often the algorithm will run'
+    default 1
+    cast Integer
   end
 
   separator ''
@@ -46,10 +74,14 @@ Choice.options do
     long '--version'
     desc 'Show version'
     action do
-      puts "ftpd.rb FTP server v#{PROGRAM_VERSION}"
+      puts "timetabling v#{PROGRAM_VERSION}"
       exit
     end
   end
 end
 
-puts 'port: ' + Choice.choices[:port].to_s
+constraints = Main::read_timetable_data(Choice.choices[:severity])
+
+Choice.choices[:cycles].times do
+  Main::run(:constraints => constraints, :mutation => Choice.choices[:mutation].new, :recombination => Choice.choices[:recombination].new, :number_of_slots => 30, :population_size => 1, :childs => 1, :recombination_chance => 0.0, :mutation_chance => 1.0, :iteration_limit => Choice.choices[:iterations], :time_limit => Choice.choices[:time_limit])
+end

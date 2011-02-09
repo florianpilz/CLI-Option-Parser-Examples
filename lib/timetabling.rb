@@ -1,9 +1,9 @@
 # Copyright (c) 2011 Florian Pilz
 # See MIT-LICENSE for license information.
 
-require 'base'
-require 'mutations'
-require 'recombinations'
+require 'lib/base'
+require 'lib/mutations'
+require 'lib/recombinations'
 
 # offene Fragen:
 # - Beweis, dass Menge von clashing_periods durch gegenseitigen Austausch nicht zwingend zur Lösung führt
@@ -77,7 +77,7 @@ module Main
 
   def self.read_timetable_data(number)
     constraints = []
-    File.open("hard-timetabling-data/hdtt#{number}list.txt", "r") do |file|
+    File.open("data/hdtt#{number}list.txt", "r") do |file|
       while line = file.gets
         constraints << Constraint.parse(line)
       end
@@ -88,10 +88,4 @@ end
 
 Signal.trap("TSTP") do |x| # Control-Z
   Main::print_info = true
-end
-
-constraints = Main::read_timetable_data(timetable)
-
-cycles.times do
-  Main::run(:constraints => constraints, :mutation => mutationclass.new, :recombination => recombinationclass.new, :number_of_slots => 30, :population_size => 1, :childs => 1, :recombination_chance => 0.0, :mutation_chance => 1.0, :iteration_limit => iteration_limit, :time_limit => time_limit)
 end
