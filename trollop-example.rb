@@ -1,21 +1,30 @@
 require 'rubygems'
 require 'trollop'
-# automatically generates shortcuts
+require 'lib/timetabling'
+
 opts = Trollop::options do
-  version "test 1.2.3 (c) 2008 William Morgan"
+  version "timetabling 2.1 (c) 2011 Florian Pilz"
   banner <<-EOS
-Test is an awesome program that does something very, very important.
+Timetabling is an evolutionary algorithm to solve hard-timetabling problems.
 
 Usage:
-       test [options] <filenames>+
+  ruby trollop-example.rb [options]
 where [options] are:
 EOS
-
-  opt :ignore, "Ignore incorrect values"
-  opt :file, "Extra data filename to read in, with a very long option description like this one",
-        :type => String
-  opt :volume, "Volume level", :default => 3.0
-  opt :iters, "Number of iterations", :default => 5
+  opt :severity, "Severity of the timetabling problem", :default => 4
+  opt :mutation, "Mutation used in the algorithm, see lib/mutations.rb for options", :default => "DumbSwappingMutation"
+  opt :recombination, "Recombination used in the algorithm, see lib/recombinations.rb for options", :default => "IdentityRecombination"
+  opt :iterations, "Algorithm will halt after this number of iterations or run indefinitely if 0", :default => 5_000_000
+  opt :time_limit, "Algorithm will halt after exection time exceded the time limit or run indefinitely if 0", :default => 0
+  opt :cycles, "Determines how often the algorithm will run", :default => 1
 end
-Trollop::die :volume, "must be non-negative" if opts[:volume] < 0
-Trollop::die :file, "must exist" unless File.exist?(opts[:file]) if opts[:file]
+
+Trollop::die :severity, "must be in {4,5,6,7,8}" if opts[:severity] < 4 || opts[:severity] > 8
+mutation = Kernel.const_get(opts[:mutation]) rescue Trollop::die(:mutation, "invalid mutation, see lib/mutations.rb")
+recombination = Kernel.const_get(opts[:recombination]) rescue Trollop::die(:recombination, "invalid recombination, see lib/recombinations.rb")
+
+constraints = Main::read_timetable_data(opts[:severity])
+
+opts[:cycles].times do
+  Main::run(:constraints => constraints, :mutation => Kernel.const_get(opts[:mutation]).new, :recombination => Kernel.const_get(opts[:recombination]).new, :number_of_slots => 30, :population_size => 1, :childs => 1, :recombination_chance => 0.0, :mutation_chance => 1.0, :iteration_limit => opts[:iterations], :time_limit => opts[:time_limit])
+end
