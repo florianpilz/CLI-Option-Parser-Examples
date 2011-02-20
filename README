@@ -9,8 +9,8 @@ A more detailed conclusion with pros and cons of each option:
 Trollop:
   - creates short ("-f") and long ("--file") accessors automatically from symbols (":file")
   - shows default values in help message (if available)
-  - if default values are given, use values are checked to have the same type
-  - help message is adjustet to current terminal width and very readable
+  - if default values are given, supplied arguments are checked to have the same type
+  - help message is adjusted to current terminal width and very readable
   - yields focused error messages, i.e. "-num needs an Integer"
   - validations can only consist of an error message and an expression which evaluates to Boolean
 
