@@ -1,11 +1,24 @@
 Final Conclusion
 ================
 
-Several command-line option-parser were implemented to provide arguments for an evolutionary algorithm.
-These examples should make it easier to compare option-parser in a real-world scenario.
+To spare you some time, I will start with the conclusion and supply detailed information later on.
 
-My personal conclusion is that "Trollop" ist currently and by far the best solution to this problem.
-Noteworthy as well are OptionParser (optparse), which is a parser contained in ruby itself and OptiFlag, which provides the best possibilities for validation.
+Several command-line option-parser were implemented to make it easier to compare them.
+An overview of pros and cons of each option are listed below.
+
+My personal conclusion is that [Micro-Optparse](http://florianpilz.github.com/micro-optparse/) and [Trollop](http://trollop.rubyforge.org/) are -- by far -- the best option-parser available.
+Both have an expressive, clear, short and easy to use syntax.
+
+[Micro-Optparse](http://florianpilz.github.com/micro-optparse/) is 70 lines long and provides strong validations.
+Therefore it's ideal to just copy &amp; paste the option-parser into your script rather using a gem.
+
+[Trollop](http://trollop.rubyforge.org/) adjusts the help message to the width of your terminal, producing the best-looking help message.
+It's around 800 lines long and provides simple validations.
+Therefore it's the best option if simple validations are good enough and if size doesn't matter (or if you are looking for a gem).
+
+[OptionParser](http://www.ruby-doc.org/stdlib/libdoc/optparse/rdoc/classes/OptionParser.html) (optparse) is noteworthy as well, which is a parser contained in the ruby standard library.
+
+For more details and details about other option-parser, read below.
 
 Pros and Cons of each Option
 ============================
