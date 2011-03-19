@@ -27,22 +27,22 @@ Pros and Cons of each Option
 ---------------------------------------------------------------
 
   - is 70 lines short
-  - creates short ("`-m`") and long ("`--mutation`") accessors automatically from symbols ("`:mutation`")
-  - if no default value is given, the argument is treated as a switch, i.e. "`true`" if given, "`false`" otherwise (you can specify "`--no-verbose`" to set it to false)
+  - creates short (`-m`) and long (`--mutation`) accessors automatically from symbols (`:mutation`)
+  - if no default value is given, the argument is treated as a switch, i.e. `true` if given, `false` otherwise (you can specify `--no-verbose` to set it to false)
   - shows default values in help message
   - supplied arguments are checked to have the same type as the default value
-  - yields focused error messages, i.e. "`Severity must be in [1, 2, 3, 4]`"
+  - yields focused error messages, i.e. `Severity must be in [1, 2, 3, 4]`
   - has very strong validations (if value in array, matches regular expression or if lambda evaluates to true given the supplied value)
   - **Summary:** best overall option with strong validations and short syntax -- ideal to copy &amp; paste into your script if you want to avoid gem-dependencies
 
 [Trollop](http://trollop.rubyforge.org/)
 ----------------------------------------
 
-  - creates short ("`-f`") and long ("`--file`") accessors automatically from symbols ("`:file`")
+  - creates short (`-f`) and long (`--file`) accessors automatically from symbols (`:file`)
   - shows default values in help message (if available)
   - if default values are given, supplied arguments are checked to have the same type
   - help message is adjusted to current terminal width and very readable
-  - yields focused error messages, i.e. "`-num needs an Integer`"
+  - yields focused error messages, i.e. `-num needs an Integer`
   - validations can only consist of an error message and an expression which evaluates to Boolean
   - **Summary:** best option if simple validations are sufficient and if you are looking for an external library (gem)
 
@@ -105,7 +105,7 @@ Pros and Cons of each Option
   - help message uses a strange syntax to describe arity and type of each argument, looks ugly
   - default values can be given
   - simple validations, which evaluate to Boolean, can be used
-  - will only print "`invalid keyword #{keyword}`" if a validation failed
+  - will only print `invalid keyword #{keyword}` if a validation failed
   - lengthy syntax
   - **Summary:** viable option with a weird but descriptive syntax with lambda expressions for validations
 
