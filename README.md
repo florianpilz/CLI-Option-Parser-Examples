@@ -10,6 +10,18 @@ Noteworthy as well are OptionParser (optparse), which is a parser contained in r
 Pros and Cons of each Option
 ============================
 
+[Micro-Optparse](http://florianpilz.github.com/micro-optparse/)
+---------------------------------------------------------------
+
+  - is 70 lines short
+  - creates short ("`-m`") and long ("`--mutation`") accessors automatically from symbols ("`:mutation`")
+  - if no default value is given, the argument is treated as a switch, i.e. "`true`" if given, "`false`" otherwise (you can specify "`--no-verbose`" to set it to false)
+  - shows default values in help message
+  - supplied arguments are checked to have the same type as the default value
+  - yields focused error messages, i.e. "`Severity must be in [1, 2, 3, 4]`"
+  - has very strong validations (if value in array, matches regular expression or if lambda evaluates to true given the supplied value)
+  - **Summary:** best overall option with strong validations and short syntax -- ideal to copy &amp; paste into your script if you want to avoid gem-dependencies
+
 [Trollop](http://trollop.rubyforge.org/)
 ----------------------------------------
 
@@ -31,7 +43,7 @@ Pros and Cons of each Option
   - expected type, i.e. Integer, can be given
   - throws an error instead of a helpful message, if a problem occured (wrong type for example)
   - validations can only check if value is in an array of predefined values
-  - **Summary:** best option in the standard library, but [micro-optparse](http://florianpilz.github.com/micro-optparse/) should be preferred if possible, because it replaces all weaknesses by strength (strong validations, informative error messages, proper default values, ...)
+  - **Summary:** best option in the standard library, but [Micro-Optparse](http://florianpilz.github.com/micro-optparse/) should be preferred if possible, because it replaces all weaknesses by strength (strong validations, informative error messages, proper default values, ...)
   
 [Switches](https://github.com/thoran/switches)
 ----------------------------------------------
@@ -41,7 +53,7 @@ Pros and Cons of each Option
   - match is saved automatically and default values can be given easily
   - no validations
   - also throws unexpressive errors instead of a helpful message
-  - **Summary:** good option, but lacks proper documentation and has no validations -- use [micro-optparse](http://florianpilz.github.com/micro-optparse/) instead
+  - **Summary:** good option, but lacks proper documentation and has no validations -- use [Micro-Optparse](http://florianpilz.github.com/micro-optparse/) instead
 
 [Optiflag](http://optiflag.rubyforge.org/quick.html)
 ----------------------------------------------------
@@ -50,7 +62,7 @@ Pros and Cons of each Option
   - no possibility to declare expected type
   - syntax is a bit lengthy
   - very powerful validations, i.e. if value is in array of predefined values or if a given regex matches the input
-  - **Summary:** apart from [micro-optparse](http://florianpilz.github.com/micro-optparse/) best option concerning strong validations, but lacks elegance
+  - **Summary:** apart from [Micro-Optparse](http://florianpilz.github.com/micro-optparse/) best option concerning strong validations, but lacks elegance
 
 [Choice](http://choice.rubyforge.org/)
 --------------------------------------
@@ -61,7 +73,7 @@ Pros and Cons of each Option
   - default values and expected type can be declared
   - validation if input is in array of predefined values
   - possibility to manipulate the input before it is saved
-  - **Summary:** good option with a descriptive syntax and good validations -- however, even the small example contained in this repository is longer than the parser of [micro-optparse](http://florianpilz.github.com/micro-optparse/)
+  - **Summary:** good option with a descriptive syntax and good validations -- however, even the small example contained in this repository is longer than the parser of [Micro-Optparse](http://florianpilz.github.com/micro-optparse/)
   
 [Thor](https://github.com/wycats/thor)
 --------------------------------------
