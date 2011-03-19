@@ -1,24 +1,27 @@
+Final Conclusion
+================
+
 Several command-line option-parser were implemented to provide arguments for an evolutionary algorithm.
 These examples should make it easier to compare option-parser in a real-world scenario.
 
 My personal conclusion is that "Trollop" ist currently and by far the best solution to this problem.
 Noteworthy as well are OptionParser (optparse), which is a parser contained in ruby itself and OptiFlag, which provides the best possibilities for validation.
 
-A more detailed conclusion with pros and cons of each option
-============================================================
+Pros and Cons of each Option
+============================
 
-Trollop
--------
+[Trollop](http://trollop.rubyforge.org/)
+----------------------------------------
 
-  - creates short ("-f") and long ("--file") accessors automatically from symbols (":file")
+  - creates short ("`-f`") and long ("`--file`") accessors automatically from symbols ("`:file`")
   - shows default values in help message (if available)
   - if default values are given, supplied arguments are checked to have the same type
   - help message is adjusted to current terminal width and very readable
-  - yields focused error messages, i.e. "-num needs an Integer"
+  - yields focused error messages, i.e. "`-num needs an Integer`"
   - validations can only consist of an error message and an expression which evaluates to Boolean
 
-OptionParser (optparse)
------------------------
+[OptionParser](http://www.ruby-doc.org/stdlib/libdoc/optparse/rdoc/classes/OptionParser.html) (optparse)
+--------------------------------------------------------------------------------------------------------
 
   - part of the ruby library
   - accessor must be specified manually
@@ -28,8 +31,8 @@ OptionParser (optparse)
   - throws an error instead of a helpful message, if a problem occured (wrong type for example)
   - validations can only check if value is in an array of predefined values
   
-Switches https://github.com/thoran/switches
--------------------------------------------
+[Switches](https://github.com/thoran/switches)
+----------------------------------------------
 
   - wrapper for OptionParser
   - short and expressive methods
@@ -37,16 +40,16 @@ Switches https://github.com/thoran/switches
   - no validations
   - also throws unexpressive errors instead of a helpful message
 
-Optiflag
---------
+[Optiflag](http://optiflag.rubyforge.org/quick.html)
+----------------------------------------------------
 
   - only shows the short accessor, even if a long accessor was defined
   - no possibility to declare expected type
   - syntax is a bit lengthy
   - very powerful validations, i.e. if value is in array of predefined values or if a given regex matches the input
 
-Choice
-------
+[Choice](http://choice.rubyforge.org/)
+--------------------------------------
 
   - accessors must be specified manually
   - lengthy syntax
@@ -55,8 +58,8 @@ Choice
   - validation if input is in array of predefined values
   - possibility to manipulate the input before it is saved
   
-Thor
-----
+[Thor](https://github.com/wycats/thor)
+--------------------------------------
 
   - more a tool like rake, rather a option parser
   - only generates long accessors
@@ -64,8 +67,8 @@ Thor
   - checks type of user input against type of default values and makes implicit typecasts
   - no validations possible
   
-Main
-----
+[Main](https://github.com/ahoward/main)
+---------------------------------------
 
   - no dash in front of the accessor
   - help message uses a strange syntax to describe arity and type of each argument, looks ugly
@@ -74,8 +77,8 @@ Main
   - will only print "`invalid keyword #{keyword}`" if a validation failed
   - lengthy syntax
 
-Getopt-Declare
---------------
+[Getopt-Declare](http://getoptdeclare.rubyforge.org/)
+-----------------------------------------------------
 
   - _Do Not Use!_
   - always throws an error, even if input is OK
@@ -86,7 +89,8 @@ Getopt-Declare
 Other alternatives, which weren't worth my time
 -----------------------------------------------
 
-  - getopt
-  - usage
-  - ropt
-  - getoptlong (resides in ruby library, like optparse)
+  - [getopt](https://github.com/djberg96/getopt)
+  - [usage](http://rubydoc.info/gems/usage/0.0.4/frames)
+  - [ropt](http://devel.korinkan.co.jp/ruby-ropt/README.ja.html)
+  - [getoptlong](http://www.ruby-doc.org/stdlib/libdoc/getoptlong/rdoc/index.html) (resides in ruby library, like optparse)
+  - and many more
