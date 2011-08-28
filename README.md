@@ -54,7 +54,7 @@ Pros and Cons of each Option
   - must save matched option by hand (annoying, because this part could have been automated very easily)
   - default values can be faked by setting them beforehand and overwriting them while parsing the arguments
   - expected type, i.e. Integer, can be given
-  - throws an error instead of a helpful message, if a problem occured (wrong type for example)
+  - throws an error instead of a helpful message, if a problem occurred (wrong type for example)
   - validations can only check if value is in an array of predefined values
   - **Summary:** best option in the standard library, but [Micro-Optparse](http://florianpilz.github.com/micro-optparse/) should be preferred if possible, because it replaces all weaknesses by strength (strong validations, informative error messages, proper default values, ...)
   
